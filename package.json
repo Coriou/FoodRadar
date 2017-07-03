@@ -1,0 +1,28 @@
+{
+  "name": "foodradar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "export NODE_ENV=dev && node webpack.js --watch"
+  },
+  "author": "Coriou",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "bluebird": "^3.5.0",
+    "json-loader": "^0.5.4",
+    "node-geocoder": "^3.18.0",
+    "request": "^2.81.0",
+    "sanitize-filename": "^1.6.1",
+    "tough-cookie-filestore": "0.0.1",
+    "webpack": "^3.0.0",
+    "webpack-node-externals": "^1.6.0",
+    "webpack-source-map-support": "^1.0.3"
+  }
+}
