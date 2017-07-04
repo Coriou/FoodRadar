@@ -14,7 +14,7 @@ export default class HTTP{
 		})
 	}
 
-	request(options){
+	request(options, context = false){
 		options = this.attachDefaults(options)
 		return new Promise((resolve, reject) => {
 
@@ -22,8 +22,11 @@ export default class HTTP{
 				if ( error )
 					reject(error)
 				else{
-					if ( response.headers['content-type'].match(/json/i) )
-						resolve(JSON.parse(body))
+					if ( response.headers['content-type'].match(/json/i) ){
+						body = JSON.parse(body)
+						if (context) body.app = context
+						resolve(body)
+					}
 					else
 						resolve(body)
 				}

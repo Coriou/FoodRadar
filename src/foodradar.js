@@ -33,7 +33,7 @@ export default class FoodRadar {
 		}
 	}
 
-	getDeliveroo(){
+	getRestaurantsDeliveroo( raw = false ){
 		return new Promise((resolve, reject) => {
 			let deliRestaurants = []
 			Deliveroo.restaurants(this.lat, this.lon)
@@ -52,7 +52,8 @@ export default class FoodRadar {
 							},
 							isNew: v.newly_added,
 							deliveredIn: v.total_time,
-							isOpen: v.open
+							isOpen: v.open,
+							raw: raw ? v : false
 						}
 					})
 				resolve(deliRestaurants)
@@ -63,7 +64,7 @@ export default class FoodRadar {
 		})
 	}
 
-	getFoodora(){
+	getRestaurantsFoodora( raw = false ){
 		return new Promise((resolve, reject) => {
 			let foodRestaurants = []
 			Foodora.restaurants(this.lat, this.lon)
@@ -82,7 +83,8 @@ export default class FoodRadar {
 							},
 							isNew: v.is_new,
 							deliveredIn: v.minimum_delivery_time,
-							isOpen: v.is_active
+							isOpen: v.is_active,
+							raw: raw ? v : false
 						}
 					})
 				resolve(foodRestaurants)
@@ -93,22 +95,51 @@ export default class FoodRadar {
 		})
 	}
 
-	async getRestaurants(){
+	async getRestaurants( raw = false ){
 		if ( !this.lat || !this.lon )
 			await this.setAddress(this.address)
 
-		let promises = []
-
 		return new Promise((resolve, reject) => {
 
-			promises[0] = this.getDeliveroo()
-			promises[1] = this.getFoodora()
+			let promises = []
+			promises[0] = this.getRestaurantsDeliveroo(raw)
+			promises[1] = this.getRestaurantsFoodora(raw)
 
 			Promise.all(promises).then((restaurants) => {
+				restaurants = [].concat.apply([], restaurants)
 				resolve(restaurants)
 			})
 
 		})
-
 	}
+
+	getRestaurant( id, app = false, raw = false ){
+		return new Promise((resolve, reject) => {
+
+			let promises = []
+			switch(app){
+				case 'foodora':
+					promises[0] = Foodora.restaurant( id )
+					break
+				case 'deliveroo':
+					promises[1] = Deliveroo.restaurant( id, this.lat, this.lon )
+					break
+				default:
+					promises[0] = Foodora.restaurant( id )
+					promises[1] = Deliveroo.restaurant( id, this.lat, this.lon )
+					break
+			}
+
+			Promise.all(promises).then((results) => {
+				results = [].concat.apply([], results).filter(v => {
+					if (v)
+						if (v.id) return true
+					return false
+				})
+				resolve(results)
+			})
+
+		})
+	}
+
 }

@@ -23,7 +23,7 @@ let Foodora = class Foodora {
 			headers: this.headers()
 		}
 
-		return this.req.request(request)
+		return this.req.request(request, 'foodora')
 	}
 
 	restaurant( id ){
@@ -35,7 +35,7 @@ let Foodora = class Foodora {
 			headers: this.headers()
 		}
 
-		return this.req.request(request)
+		return this.req.request(request, 'foodora')
 	}
 
 	headers( params = false ){

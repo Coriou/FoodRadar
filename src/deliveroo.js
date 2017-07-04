@@ -26,7 +26,7 @@ let Deliveroo = class Deliveroo {
 			}
 		}
 
-		return this.req.request(request)
+		return this.req.request(request, 'deliveroo')
 	}
 
 	restaurants( lat = 48.828459, lon = 2.356061 ){
@@ -39,7 +39,7 @@ let Deliveroo = class Deliveroo {
 			headers: this.headers(),
 		}
 
-		return this.req.request(request)
+		return this.req.request(request, 'deliveroo')
 	}
 
 	restaurant( id, lat = 48.828459, lon = 2.356061 ){
@@ -53,7 +53,7 @@ let Deliveroo = class Deliveroo {
 			headers: this.headers(),
 		}
 
-		return this.req.request(request)
+		return this.req.request(request, 'deliveroo')
 	}
 
 	headers( params = false ){
