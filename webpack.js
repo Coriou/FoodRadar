@@ -1,7 +1,6 @@
 var webpack = require("webpack")
 var webpackSourceMapSupport = require("webpack-source-map-support")
 var nodeExternals = require("webpack-node-externals")
-var glob = require("glob")
 
 var PROD = ( process.env.NODE_ENV === 'production' )
 
